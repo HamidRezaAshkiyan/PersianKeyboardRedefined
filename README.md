@@ -1,7 +1,3 @@
-# Persian Keyboard Redefined
-
-This project aim to redesign Persian keyboard layout to have both benefit of Persian standard and normal keyboard.
-
 # کیبورد فارسی بازطراحی شده
 
 کیبورد های فارسی پیشفرض ویندوز مشکلاتی داشتند که به فکر افتادم که این کیبورد را طراحی کنم
