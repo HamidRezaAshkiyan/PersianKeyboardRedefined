@@ -21,3 +21,29 @@ Shift pressed
 شاد و پیروز باشید و از کیبورد فارسی خوب استفاده کنید : )
 
 </div>
+
+---
+
+## English overview
+
+**Persian but Better** keeps the familiar Windows “Persian” (legacy) letter positions, with Persian digits on the number row and a correct half-space on `Shift+Space`.
+
+### Features (this branch)
+
+| Feature | How |
+| --- | --- |
+| Persian digits on the number row | `۰`–`۹` |
+| Half-space (ZWNJ / نیم‌فاصله) | `Shift+Space` → ZWNJ (`U+200C`) |
+| Zero-width space (optional) | `Ctrl+Shift+Space` → ZWSP |
+| Rial ligature | `Shift+R` → `ریال` with Farsi ی (`U+06CC`) |
+
+### Quick install (test build)
+
+Use [`installer/`](installer/) — run `setup.cmd` as Administrator, sign out/in, then add **Persian but Better** under Persian language options.
+
+### Changelog (v1.1 — core)
+
+- **Fix half-space:** `Shift+Space` emits ZWNJ (`U+200C`) instead of ZWSP (`U+200B`).
+- **Rial spelling:** `Shift+R` uses Farsi ی (`U+06CC`).
+- **Metadata:** Hamid Reza Ashkiyan; version `1.1`.
+- **Installer:** pre-built DLLs under `installer/`.
