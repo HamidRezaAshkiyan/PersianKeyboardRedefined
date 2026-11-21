@@ -2,6 +2,8 @@
 
 # کیبورد فارسی بازطراحی شده (Persian but Better)
 
+🌐 **[صفحه تعاملی و تست زنده کیبورد (GitHub Pages)](https://hamidrezaashkiyan.github.io/PersianKeyboardRedefined/)**
+
 کیبورد های فارسی پیشفرض ویندوز مشکلاتی داشتند که به فکر افتادم که این کیبورد را طراحی کنم.
 این کیبورد در واقع ترکیب شده کیبوردهای فارسی استاندارد و فارسی معمولی که در ویندوزه.
 
@@ -23,6 +25,8 @@ Shift pressed
 ---
 
 ## What's New in v2.0
+
+🌐 **Try it live in your browser:** [hamidrezaashkiyan.github.io/PersianKeyboardRedefined](https://hamidrezaashkiyan.github.io/PersianKeyboardRedefined/) — interactive virtual keyboard with live physical-keyboard typing, `AltGr` preview, and a ZWNJ (`U+200C`) visualizer.
 
 ### Bug Fixes
 - **Proper Half-Space (`Shift + Space`)**: Fixed `Shift + Space` to emit **ZWNJ (`U+200C`)** instead of Zero-Width Space (`U+200B`), preventing mid-word line breaks and fixing search/spellchecker compatibility. (`U+200B` remains available on `Ctrl + Shift + Space`.)

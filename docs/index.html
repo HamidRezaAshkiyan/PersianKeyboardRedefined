@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Persian but Better — کیبورد فارسی بازطراحی شده</title>
+  <meta name="description" content="Persian but Better v2.0: Legacy Windows Persian letter positions with Persian digits, proper Shift+Space ZWNJ, full AltGr typography layer, and Windows/macOS/Linux support." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#">
+        <span class="brand-badge">پ</span>
+        <span data-i18n="brand">کیبورد فارسی بازطراحی شده</span>
+        <span class="version-pill">v2.0</span>
+      </a>
+      <div class="nav-actions">
+        <button id="lang-toggle" class="icon-btn" type="button" aria-label="Switch language">EN</button>
+        <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle theme">☀️</button>
+        <a class="icon-btn" href="https://github.com/HamidRezaAshkiyan/PersianKeyboardRedefined" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1 data-i18n="heroTitle">کیبورد فارسی آشنا، اما بی‌نقص‌تر</h1>
+      <p data-i18n="heroDesc">
+        چیدمان حروف کیبورد کلاسیک فارسی ویندوز بدون تغییر عادت تایپ، همراه با اعداد فارسی در ردیف بالا، نیم‌فاصله استاندارد با Shift+Space، لایه کامل AltGr و پشتیبانی از ویندوز، مک و لینوکس.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#install" data-i18n="ctaInstall">نصب و دانلود</a>
+        <a class="btn" href="#try" data-i18n="ctaTry">تست زنده کیبورد</a>
+      </div>
+    </section>
+
+    <!-- Interactive Keyboard & Live Sandbox -->
+    <section id="try" class="section">
+      <div class="section-header">
+        <h2 data-i18n="tryTitle">تست زنده و نقشه تعاملی کیبورد</h2>
+        <p data-i18n="tryDesc">در کادر زیر با کیبورد واقعی خود تایپ کنید یا روی کلیدها کلیک کنید. کلیدهای Shift یا Alt را نگه دارید تا لایه‌ها را زنده ببینید.</p>
+      </div>
+
+      <div class="card">
+        <div class="sandbox-bar">
+          <strong data-i18n="sandboxLabel">کادر تست (فارسی)</strong>
+          <div class="sandbox-actions">
+            <button id="sample-btn" class="chip-btn" type="button" data-i18n="btnSample">متن نمونه</button>
+            <button id="zwnj-toggle" class="chip-btn" type="button" data-i18n="btnShowZwnj">نمایش نیم‌فاصله (ZWNJ)</button>
+            <button id="copy-btn" class="chip-btn" type="button" data-i18n="btnCopy">کپی</button>
+            <button id="clear-btn" class="chip-btn" type="button" data-i18n="btnClear">پاک کردن</button>
+          </div>
+        </div>
+
+        <textarea
+          id="sandbox"
+          class="sandbox-input"
+          spellcheck="false"
+          placeholder="اینجا تایپ کنید… (مثلاً Shift+Space برای نیم‌فاصله در «می‌خواهم»)"
+        ></textarea>
+
+        <div id="zwnj-preview" class="zwnj-preview" aria-live="polite"></div>
+
+        <div class="kb-controls">
+          <div class="layer-tabs" role="tablist" aria-label="Keyboard layers">
+            <button class="layer-tab active" data-layer="base" type="button">Base</button>
+            <button class="layer-tab" data-layer="shift" type="button">Shift</button>
+            <button class="layer-tab" data-layer="altgr" type="button">AltGr / Option</button>
+            <button class="layer-tab" data-layer="altgrShift" type="button">AltGr + Shift</button>
+          </div>
+
+          <div id="inspector" class="inspector">
+            <span data-i18n="inspectorHint">روی هر کلید بروید تا کد یونیکد آن را ببینید</span>
+          </div>
+        </div>
+
+        <div class="keyboard-wrap">
+          <div id="keyboard" class="keyboard" aria-label="Interactive Persian but Better keyboard"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What's New in v2.0 -->
+    <section id="features" class="section">
+      <div class="section-header">
+        <h2 data-i18n="featuresTitle">تغییرات و بهبودهای نسخه ۲.۰</h2>
+        <p data-i18n="featuresDesc">رفع باگ‌های قدیمی ویندوز و افزودن قابلیت‌های تایپوگرافی مدرن بدون برهم زدن حافظه عضلانی شما.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="feature-card">
+          <h3><span class="tag tag-fix">FIX</span> <span data-i18n="f1Title">نیم‌فاصله واقعی (U+200C)</span></h3>
+          <p data-i18n="f1Desc">کلید Shift+Space اکنون به‌جای کاراکتر اشتباه ZWSP (U+200B)، نیم‌فاصله استاندارد ZWNJ (U+200C) تولید می‌کند تا کلمات وسط خط نشکنند و در جستجو پیدا شوند.</p>
+        </div>
+        <div class="feature-card">
+          <h3><span class="tag tag-fix">FIX</span> <span data-i18n="f2Title">اصلاح لیگچر «ریال» با «ی» فارسی</span></h3>
+          <p data-i18n="f2Desc">کلید Shift+R اکنون از «ی» فارسی (U+06CC) به‌جای «ي» عربی استفاده می‌کند و نماد اختصاصی ریال (﷼) نیز روی AltGr+R در دسترس است.</p>
+        </div>
+        <div class="feature-card">
+          <h3><span class="tag tag-fix">FIX</span> <span data-i18n="f3Title">بازگردانی میانبرهای Ctrl+0 و Ctrl+-</span></h3>
+          <p data-i18n="f3Desc">کاراکترهای مزاحم قدیمی روی Ctrl+0 و Ctrl+- حذف شدند تا میانبرهای Reset Zoom و Zoom Out در مرورگرها و ادیتورها بدون مشکل کار کنند.</p>
+        </div>
+        <div class="feature-card">
+          <h3><span class="tag">NEW</span> <span data-i18n="f4Title">لایه کامل AltGr / Option</span></h3>
+          <p data-i18n="f4Desc">تایپ اعداد انگلیسی (0–9)، درصد فارسی (٪)، ممیز و جداکننده هزارگان (٫ ٬)، ساکن (ْ)، همزه بالای هـ (ٔ)، الف مقصوره (ٰ)، سه‌نقطه (…) و خط تیره (– —) بدون تغییر زبان.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison -->
+    <section id="compare" class="section">
+      <div class="section-header">
+        <h2 data-i18n="compareTitle">مقایسه با کیبوردهای پیش‌فرض ویندوز</h2>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th data-i18n="colFeature">ویژگی</th>
+              <th data-i18n="colLegacy">فارسی معمولی ویندوز</th>
+              <th data-i18n="colStandard">فارسی استاندارد (ISIRI)</th>
+              <th data-i18n="colBetter">Persian but Better v2.0</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-i18n="cmpLetters">جایگاه کلاسیک حروف («پ» روی \ و «ژ» روی Shift+C)</td>
+              <td class="yes">✓</td>
+              <td class="no">✗</td>
+              <td class="yes">✓</td>
+            </tr>
+            <tr>
+              <td data-i18n="cmpDigits">اعداد فارسی (۰–۹) روی ردیف بالای کیبورد</td>
+              <td class="no">✗</td>
+              <td class="yes">✓</td>
+              <td class="yes">✓</td>
+            </tr>
+            <tr>
+              <td data-i18n="cmpZwnj">نیم‌فاصله استاندارد (U+200C) روی Shift+Space</td>
+              <td class="no">✗</td>
+              <td class="yes">✓</td>
+              <td class="yes">✓</td>
+            </tr>
+            <tr>
+              <td data-i18n="cmpAscii">اعداد انگلیسی (0–9) با AltGr بدون تغییر زبان</td>
+              <td class="no">✗</td>
+              <td class="yes">✓</td>
+              <td class="yes">✓</td>
+            </tr>
+            <tr>
+              <td data-i18n="cmpDiacritics">اعراب کامل شامل ساکن (ْ) و همزه بالای هـ (ٔ)</td>
+              <td class="no">✗</td>
+              <td class="yes">✓</td>
+              <td class="yes">✓</td>
+            </tr>
+            <tr>
+              <td data-i18n="cmpZoom">سالم ماندن میانبرهای Ctrl+0 و Ctrl+-</td>
+              <td class="no">✗</td>
+              <td class="yes">✓</td>
+              <td class="yes">✓</td>
+            </tr>
+            <tr>
+              <td data-i18n="cmpCross">نسخه آماده برای ویندوز، مک و لینوکس</td>
+              <td class="no">—</td>
+              <td class="no">—</td>
+              <td class="yes">✓</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Installation -->
+    <section id="install" class="section">
+      <div class="section-header">
+        <h2 data-i18n="installTitle">راهنمای نصب</h2>
+        <p data-i18n="installDesc">سیستم‌عامل خود را انتخاب کنید.</p>
+      </div>
+
+      <div class="card">
+        <div class="install-tabs" role="tablist">
+          <button class="layer-tab active" data-os="windows" type="button">Windows</button>
+          <button class="layer-tab" data-os="macos" type="button">macOS</button>
+          <button class="layer-tab" data-os="linux" type="button">Linux (XKB)</button>
+        </div>
+
+        <div id="panel-windows" class="install-panel active">
+          <ol>
+            <li data-i18n="winStep1">نصب‌کننده آماده را از صفحه <a href="https://github.com/HamidRezaAshkiyan/PersianKeyboardRedefined/releases" target="_blank" rel="noopener">Releases</a> دانلود کنید، یا فایل <a href="https://github.com/HamidRezaAshkiyan/PersianKeyboardRedefined/blob/main/Better%20Persian.klc" target="_blank" rel="noopener"><code>Better Persian.klc</code></a> را در <strong>Microsoft Keyboard Layout Creator (MSKLC)</strong> باز کرده و از منوی <strong>Project → Build DLL and Setup Package</strong> خروجی بگیرید.</li>
+            <li data-i18n="winStep2">فایل <code>setup.exe</code> را اجرا کنید و یک‌بار Sign out / Sign in انجام دهید.</li>
+            <li data-i18n="winStep3">در بخش <strong>Settings → Time &amp; Language → Language &amp; Region → Persian → Keyboard</strong> کیبورد <strong>Persian but Better</strong> را اضافه کنید.</li>
+          </ol>
+        </div>
+
+        <div id="panel-macos" class="install-panel">
+          <ol>
+            <li data-i18n="macStep1">فایل <a href="https://github.com/HamidRezaAshkiyan/PersianKeyboardRedefined/blob/main/macos/Persian%20but%20Better.keylayout" target="_blank" rel="noopener"><code>macos/Persian but Better.keylayout</code></a> را دانلود کرده و در پوشه زیر کپی کنید:</li>
+          </ol>
+          <pre><code>cp "Persian but Better.keylayout" ~/Library/Keyboard\ Layouts/</code></pre>
+          <ol start="2">
+            <li data-i18n="macStep2">یک‌بار Log out / Log in کنید.</li>
+            <li data-i18n="macStep3">از مسیر <strong>System Settings → Keyboard → Text Input → Input Sources → Edit… → + → Others</strong> گزینه <strong>Persian but Better</strong> را اضافه کنید. (کلید <code>Option</code> معادل <code>AltGr</code> است و میانبرهای <code>Cmd</code> مطابق QWERTY باقی می‌مانند.)</li>
+          </ol>
+        </div>
+
+        <div id="panel-linux" class="install-panel">
+          <ol>
+            <li data-i18n="linStep1">فایل <a href="https://github.com/HamidRezaAshkiyan/PersianKeyboardRedefined/blob/main/linux/persian-but-better.xkb" target="_blank" rel="noopener"><code>linux/persian-but-better.xkb</code></a> را در مسیر XKB کپی کرده و فعال کنید:</li>
+          </ol>
+          <pre><code>sudo cp linux/persian-but-better.xkb /usr/share/X11/xkb/symbols/persian_better
+setxkbmap persian_better better</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        <strong>Persian but Better</strong> ·
+        <a href="https://github.com/HamidRezaAshkiyan/PersianKeyboardRedefined" target="_blank" rel="noopener">GitHub Repository</a> ·
+        GPL-3.0 License · Hamid Reza Ashkiyan
+      </p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
