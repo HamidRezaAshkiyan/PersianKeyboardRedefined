@@ -1,0 +1,65 @@
+// Persian but Better v2.0 (XKB symbols for Linux)
+// Copyright (c) 2020-2026 Hamid Reza Ashkiyan
+//
+// Legacy Windows Persian letter positions + Persian digits on number row +
+// Shift+Space ZWNJ (U+200C) + full AltGr layer (ASCII digits & Persian typography).
+//
+// Note: XKB keysyms represent single Unicode codepoints, so Shift+R emits
+// the dedicated Rial Sign (U+FDFC, ﷼) instead of the 4-character Windows ligature.
+
+default partial alphanumeric_keys
+xkb_symbols "better" {
+    name[Group1] = "Persian (Persian but Better)";
+
+    key <AE01> { [ U06F1   , U0021   , U0031   , U200D    ] };
+    key <AE02> { [ U06F2   , U0040   , U0032   , U200C    ] };
+    key <AE03> { [ U06F3   , U0023   , U0033   , U200E    ] };
+    key <AE04> { [ U06F4   , U0024   , U0034   , U200F    ] };
+    key <AE05> { [ U06F5   , U0025   , U0035   , U066A    ] };
+    key <AE06> { [ U06F6   , U005E   , U0036   , NoSymbol ] };
+    key <AE07> { [ U06F7   , U0026   , U0037   , NoSymbol ] };
+    key <AE08> { [ U06F8   , U002A   , U0038   , NoSymbol ] };
+    key <AE09> { [ U06F9   , U0029   , U0039   , NoSymbol ] };
+    key <AE10> { [ U06F0   , U0028   , U0030   , NoSymbol ] };
+    key <AE11> { [ U002D   , U005F   , U2013   , U2014    ] };
+    key <AE12> { [ U003D   , U002B   , NoSymbol, NoSymbol ] };
+    key <AD01> { [ U0636   , U064B   , U0652   , NoSymbol ] };
+    key <AD02> { [ U0635   , U064C   , NoSymbol, NoSymbol ] };
+    key <AD03> { [ U062B   , U064D   , NoSymbol, NoSymbol ] };
+    key <AD04> { [ U0642   , UFDFC   , UFDFC   , NoSymbol ] };
+    key <AD05> { [ U0641   , U060C   , NoSymbol, NoSymbol ] };
+    key <AD06> { [ U063A   , U061B   , NoSymbol, NoSymbol ] };
+    key <AD07> { [ U0639   , U002C   , NoSymbol, NoSymbol ] };
+    key <AD08> { [ U0647   , U005D   , NoSymbol, NoSymbol ] };
+    key <AD09> { [ U062E   , U005B   , NoSymbol, NoSymbol ] };
+    key <AD10> { [ U062D   , U005C   , NoSymbol, NoSymbol ] };
+    key <AD11> { [ U062C   , U007D   , NoSymbol, NoSymbol ] };
+    key <AD12> { [ U0686   , U007B   , NoSymbol, NoSymbol ] };
+    key <AC01> { [ U0634   , U064E   , NoSymbol, NoSymbol ] };
+    key <AC02> { [ U0633   , U064F   , NoSymbol, NoSymbol ] };
+    key <AC03> { [ U06CC   , U0650   , NoSymbol, NoSymbol ] };
+    key <AC04> { [ U0628   , U0651   , NoSymbol, NoSymbol ] };
+    key <AC05> { [ U0644   , U06C0   , U0654   , NoSymbol ] };
+    key <AC06> { [ U0627   , U0622   , U0670   , NoSymbol ] };
+    key <AC07> { [ U062A   , U0640   , NoSymbol, NoSymbol ] };
+    key <AC08> { [ U0646   , U00AB   , U2039   , NoSymbol ] };
+    key <AC09> { [ U0645   , U00BB   , U203A   , NoSymbol ] };
+    key <AC10> { [ U06A9   , U003A   , NoSymbol, NoSymbol ] };
+    key <AC11> { [ U06AF   , U0022   , NoSymbol, NoSymbol ] };
+    key <TLDE> { [ U00F7   , U00D7   , U0060   , U007E    ] };
+    key <BKSL> { [ U067E   , U007C   , NoSymbol, NoSymbol ] };
+    key <AB01> { [ U0638   , U0629   , NoSymbol, NoSymbol ] };
+    key <AB02> { [ U0637   , U064A   , NoSymbol, NoSymbol ] };
+    key <AB03> { [ U0632   , U0698   , NoSymbol, NoSymbol ] };
+    key <AB04> { [ U0631   , U0624   , NoSymbol, NoSymbol ] };
+    key <AB05> { [ U0630   , U0625   , NoSymbol, NoSymbol ] };
+    key <AB06> { [ U062F   , U0623   , NoSymbol, NoSymbol ] };
+    key <AB07> { [ U0626   , U0621   , NoSymbol, NoSymbol ] };
+    key <AB08> { [ U0648   , U003C   , U066C   , NoSymbol ] };
+    key <AB09> { [ U002E   , U003E   , U066B   , U2026    ] };
+    key <AB10> { [ U002F   , U061F   , NoSymbol, NoSymbol ] };
+    key <SPCE> { [ U0020   , U200C   , U00A0   , NoSymbol ] };
+    key <LSGT> { [ U067E   , U007C   , NoSymbol, NoSymbol ] };
+
+    include "level3(ralt_switch)"
+};
