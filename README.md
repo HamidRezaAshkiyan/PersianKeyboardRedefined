@@ -21,3 +21,15 @@ Shift pressed
 شاد و پیروز باشید و از کیبورد فارسی خوب استفاده کنید : )
 
 </div>
+
+
+
+---
+
+## Persian punctuation (this branch)
+
+| Chord | Character |
+| --- | --- |
+| `Shift+5` | `٪` (Arabic percent); `Ctrl+5` keeps `%` |
+| `Ctrl+.` | `٫` (Arabic decimal separator) |
+| `Ctrl+,` | `٬` (Arabic thousands separator) |
