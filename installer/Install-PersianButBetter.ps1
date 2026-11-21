@@ -14,9 +14,9 @@ function Copy-LayoutDll([string]$Source, [string]$DestinationDir) {
     Copy-Item -LiteralPath $Source -Destination (Join-Path $DestinationDir $DllName) -Force
     Write-Host "Installed $(Join-Path $DestinationDir $DllName)"
 }
-$amd64 = Join-Path $Root 'amd64\Parsi.dll'
-$i386 = Join-Path $Root 'i386\Parsi.dll'
-$wow64 = Join-Path $Root 'wow64\Parsi.dll'
+$amd64 = Join-Path $Root ("amd64\" + $DllName)
+$i386 = Join-Path $Root ("i386\" + $DllName)
+$wow64 = Join-Path $Root ("wow64\" + $DllName)
 if ([Environment]::Is64BitOperatingSystem) {
     Copy-LayoutDll $amd64 "$env:WINDIR\System32"
     if (Test-Path $wow64) { Copy-LayoutDll $wow64 "$env:WINDIR\SysWOW64" }
@@ -30,4 +30,4 @@ New-ItemProperty -Path $regPath -Name 'Layout Text' -Value $DisplayName -Propert
 New-ItemProperty -Path $regPath -Name 'Layout File' -Value $DllName -PropertyType String -Force | Out-Null
 New-ItemProperty -Path $regPath -Name 'Layout Display Name' -Value "@$DllName,-1000" -PropertyType String -Force | Out-Null
 New-ItemProperty -Path $regPath -Name 'Layout Id' -Value $LayoutId -PropertyType String -Force | Out-Null
-Write-Host "Registered $Klid ($DisplayName). Sign out/in, then add the keyboard under Persian language options."
+Write-Host "Registered $Klid ($DisplayName). Sign out/in, then add this keyboard under Persian language options."
