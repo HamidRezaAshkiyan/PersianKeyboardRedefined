@@ -21,3 +21,14 @@ Shift pressed
 شاد و پیروز باشید و از کیبورد فارسی خوب استفاده کنید : )
 
 </div>
+
+
+
+---
+
+## Shift+B half-space (this branch)
+
+| Chord | Result |
+| --- | --- |
+| `Shift+B` | ZWNJ (`U+200C`) / نیم‌فاصله |
+| `Ctrl+Shift+B` | `إ` (moved off `Shift+B`) |
