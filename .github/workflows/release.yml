@@ -1,0 +1,111 @@
+name: Build and Release Installer
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v2.0)'
+        required: true
+        default: 'v2.0'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Determine release tag
+        id: meta
+        shell: pwsh
+        run: |
+          if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+            $tag = "${{ inputs.tag }}"
+          } else {
+            $tag = "${{ github.ref_name }}"
+          }
+          "tag=$tag" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Download and extract Microsoft Keyboard Layout Creator (MSKLC 1.4)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory -Path C:\msklc_dl, C:\msklc_ext -Force | Out-Null
+          Invoke-WebRequest -Uri "https://download.microsoft.com/download/6/f/5/6f5ce43a-e892-4fd1-b9a6-1a0cbb64e6e2/MSKLC.exe" -OutFile C:\msklc_dl\MSKLC.exe
+          7z x C:\msklc_dl\MSKLC.exe -oC:\msklc_dl\unpacked -y | Out-Null
+          $msi = Get-ChildItem -Path C:\msklc_dl\unpacked -Recurse -Filter "*.msi" | Select-Object -First 1
+          if (-not $msi) { throw "MSKLC.msi not found inside MSKLC.exe" }
+          Write-Host "Extracting $($msi.FullName)..."
+          $p = Start-Process msiexec.exe -ArgumentList "/a `"$($msi.FullName)`" /qn TARGETDIR=C:\msklc_ext" -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "msiexec failed with exit code $($p.ExitCode)" }
+          $kbdutool = Get-ChildItem -Path C:\msklc_ext -Recurse -Filter "kbdutool.exe" | Select-Object -First 1
+          if (-not $kbdutool) { throw "kbdutool.exe not found after MSI extraction" }
+          Write-Host "Found kbdutool at: $($kbdutool.FullName)"
+          "KBDUTOOL=$($kbdutool.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Compile Better Persian.klc for amd64, i386, and wow64
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $klc = (Resolve-Path "Better Persian.klc").Path
+          $stage = Join-Path $PWD "dist\windows"
+          foreach ($pair in @(
+            @{ Arch = "amd64"; Flag = "-m" },
+            @{ Arch = "i386";  Flag = "-x" },
+            @{ Arch = "wow64"; Flag = "-o" }
+          )) {
+            $outDir = Join-Path $stage $pair.Arch
+            New-Item -ItemType Directory -Path $outDir -Force | Out-Null
+            Push-Location $outDir
+            & $env:KBDUTOOL -w -u $pair.Flag $klc
+            if ($LASTEXITCODE -ne 0) { throw "kbdutool failed for $($pair.Arch) with exit code $LASTEXITCODE" }
+            $dll = Join-Path $outDir "Parsi.dll"
+            if (-not (Test-Path $dll)) { throw "Expected $dll not generated" }
+            Write-Host "Built $($pair.Arch): $((Get-Item $dll).Length) bytes"
+            Pop-Location
+          }
+
+      - name: Package Windows, macOS, and Linux release archives
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $tag = "${{ steps.meta.outputs.tag }}"
+          $stage = Join-Path $PWD "dist\windows"
+          Copy-Item "installer\setup.cmd", "installer\Install-PersianButBetter.ps1", "installer\Uninstall-PersianButBetter.ps1", "installer\README.md" -Destination $stage
+
+          New-Item -ItemType Directory -Path "dist\release" -Force | Out-Null
+          Compress-Archive -Path "$stage\*" -DestinationPath "dist\release\PersianButBetter-$tag-windows-installer.zip" -Force
+          Compress-Archive -Path "macos\Persian but Better.keylayout" -DestinationPath "dist\release\PersianButBetter-$tag-macos.zip" -Force
+          Compress-Archive -Path "linux\persian-but-better.xkb" -DestinationPath "dist\release\PersianButBetter-$tag-linux.zip" -Force
+          Copy-Item "Better Persian.klc" -Destination "dist\release\Better-Persian-$tag.klc"
+
+          Get-ChildItem "dist\release" | Format-Table Name, Length
+
+      - name: Upload assets to GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $tag = "${{ steps.meta.outputs.tag }}"
+          $exists = $true
+          try {
+            gh release view $tag 2>&1 | Out-Null
+            if ($LASTEXITCODE -ne 0) { $exists = $false }
+          } catch {
+            $exists = $false
+          }
+          if (-not $exists) {
+            gh release create $tag `
+              --title "Persian but Better $tag" `
+              --generate-notes `
+              dist\release\*
+          } else {
+            gh release upload $tag dist\release\* --clobber
+          }
