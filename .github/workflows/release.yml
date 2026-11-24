@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Release tag (e.g. v2.0)'
+        description: 'Release tag (e.g. v2.1)'
         required: true
-        default: 'v2.0'
+        default: 'v2.1'
 
 permissions:
   contents: write
@@ -70,6 +70,33 @@ jobs:
             Write-Host "Built $($pair.Arch): $((Get-Item $dll).Length) bytes"
             Pop-Location
           }
+
+      - name: Build Windows .exe installer (Inno Setup)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $tag = "${{ steps.meta.outputs.tag }}"
+          $ver = $tag -replace '^v', ''
+          $stage = Join-Path $PWD "dist\windows"
+          $releaseDir = Join-Path $PWD "dist\release"
+          New-Item -ItemType Directory -Path $releaseDir -Force | Out-Null
+
+          $iscc = (Get-Command ISCC.exe -ErrorAction SilentlyContinue)?.Source
+          if (-not $iscc -and (Test-Path "C:\Program Files (x86)\Inno Setup 6\ISCC.exe")) {
+            $iscc = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+          }
+          if (-not $iscc) {
+            choco install innosetup -y --no-progress
+            $iscc = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+          }
+          if (-not (Test-Path $iscc)) { throw "ISCC.exe not found" }
+
+          & $iscc "/DMyAppVersion=$ver" "/DStageDir=$stage" "/O$releaseDir" "/FPersianButBetter-$tag-Setup" "installer\PersianButBetter.iss"
+          if ($LASTEXITCODE -ne 0) { throw "ISCC failed with exit code $LASTEXITCODE" }
+
+          $exe = Join-Path $releaseDir "PersianButBetter-$tag-Setup.exe"
+          if (-not (Test-Path $exe)) { throw "Expected $exe not generated" }
+          Write-Host "Built installer: $exe ($((Get-Item $exe).Length) bytes)"
 
       - name: Package Windows, macOS, and Linux release archives
         shell: pwsh

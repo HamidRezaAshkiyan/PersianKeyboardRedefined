@@ -34,8 +34,8 @@ Shift pressed
 - **Restored App Shortcuts (`Ctrl + 0`, `Ctrl + -`)**: Removed legacy `Ctrl + 0` (`U+06C1`, Urdu Heh Goal) and `Ctrl + -` (`U+200C`) bindings that hijacked browser/editor **Reset Zoom** and **Zoom Out** shortcuts.
 - **Metadata**: Fixed author name spelling (`Hamid Reza Ashkiyan`) in `Better Persian.klc`.
 
-### New `AltGr` (`Right Alt` / `Option` on macOS) Layer
-All base and `Shift` letter positions stay identical to legacy Windows Persian, while `AltGr` adds ASCII digits and missing Persian typography:
+### `Option` / `AltGr` Layer (macOS & Linux)
+All base and `Shift` letter positions stay identical to legacy Windows Persian. On **macOS (`Option`)** and **Linux (`AltGr`)**, an extra layer adds ASCII digits and additional Persian typography *(not enabled on Windows so **`Right Alt + Shift`** continues to switch input languages just like v1.0)*:
 
 | Key | `AltGr` (`Option`) | `AltGr + Shift` (`Option + Shift`) |
 | --- | --- | --- |
